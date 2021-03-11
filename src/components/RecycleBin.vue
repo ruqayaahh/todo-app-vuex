@@ -1,19 +1,22 @@
 <template>
   <div>
     <b-container>
-      <h1>Welcome to the new Todo VueX application</h1>
-      <p>Here are a few of the tasks you have to do: </p>
+      <!-- <h1>{{ welcome_message }}</h1> -->
+      <h1>Here are the tasks you deleted</h1>
+      <hr>
+      <p>Click the restore button to add them to your todos once again</p>
+      <!-- <button>+ New Todo</button> -->
       <b-list-group>
         <b-list-group-item class='item'
         v-for="todo in todos" :key="todo.id">
           <div>
-            <input class="mr-5" type='checkbox' name=' id='>
+            <!-- <input class="mr-5" type='checkbox' name=' id='> -->
           {{ todo.title }}
           </div>
           <div class="actions">
             <b-button variant='primary' class="mr-1"
             @click='$router.push(`view-todo/${todo.id}`)'>View</b-button>
-          <b-button class="mr-1">Edit</b-button>
+          <b-button class="mr-1">Restore</b-button>
           <b-button variant='danger' class="ml-1" @click="deleteItem(todo)">Delete</b-button>
           </div>
         </b-list-group-item>
@@ -23,36 +26,21 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'Home',
-  components: {
-  },
-  data() {
-    return {
-      msg:
-        'My name is Sirri, your Task Organiser. I will be helping you organise your tasks',
-      showFace: true,
-    };
-  },
+  name: 'RecycleBin',
   computed: {
     ...mapGetters({
-      todos: 'getTodoItems',
+      todos: 'getDeletedTodos',
     }),
   },
   methods: {
-    ...mapActions({
-      deleteItem: 'deleteTodoItem',
-    }),
+    ...mapActions(['restoreTodoItems']),
   },
 };
 </script>
 
 <style scoped>
-.item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 </style>

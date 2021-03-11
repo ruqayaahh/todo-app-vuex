@@ -1,7 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist';
 
 Vue.use(Vuex);
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+  key: 'vuex-todo',
+});
 
 export default new Vuex.Store({
   state: {
@@ -10,65 +16,76 @@ export default new Vuex.Store({
         id: 1,
         title: 'Pray',
         isCompleted: false,
-        isNotcom: 2,
         description: 'Pray my 5 daily prayers and at least 6 voluntary ones',
       },
       {
         id: 2,
         title: 'Eat',
         isCompleted: false,
-        isNotcom: 3,
         description: 'Breakfast, Lunch, Dinner with between-meals intake',
       },
       {
         id: 3,
         title: 'Code',
         isCompleted: false,
-        isNotcom: 4,
         description: 'Check on VueX Modules and complete my unfinished projects',
       },
       {
         id: 4,
         title: 'Read',
         isCompleted: false,
-        isNotcom: 5,
         description: 'Read The Alchemist again',
       },
       {
         id: 5,
         title: 'Sleep',
         isCompleted: false,
-        isNotcom: 6,
         description: 'Six hours of Sleep',
       },
     ],
+    deletedItems: [],
+    currentID: 0,
   },
+  // persist: ['todoItems'],
   getters: {
     getTodoItems: (state) => state.todoItems,
     getTodoById: (state) => (id) => (state.todoItems.find((item) => item.id === id)),
+    getDeletedTodos: (state) => state.deletedItems,
+    getDeletedTodoById: (state) => (id) => (state.deletedItems.find((item) => item.id === id)),
   },
+  plugins: [vuexLocal.plugin],
   mutations: {
     updateTodoItems: (state, payload) => {
       state.todoItems.push(payload);
     },
+    updateDeletedItems: (state, payload) => {
+      state.todoItems = state.todoItems.filter((item) => item !== payload);
+      state.deletedItems.push(payload);
+    },
+    updateCurrentID: (state) => { state.currentID += 1; },
+    updateRemoveItem(state, payload) {
+      state.todoItems = state.todoItems.filter((item) => item.id !== payload);
+    },
   },
   actions: {
     addTodoItem(context, payload) {
-      let currentID = 0;
-      const idArray = [];
-      context.state.todoItems.forEach((item) => {
-        idArray.push(item.id);
-      });
-      currentID = idArray.length ? Math.max(...idArray) : 0;
+      const { currentID } = context.state.currentID;
       const data = {
         ...payload,
         id: currentID + 1,
         isCompleted: false,
-        isNotcom: currentID + 2,
       };
       context.commit('updateTodoItems', data);
+      context.commit('updateCurrentID');
     },
-  },
-  modules: {
+    deleteTodoItem(context, payload) {
+      context.commit('updateDeletedItems', payload);
+      context.commit('removeItem', payload);
+    },
+    // restoreTodoItem(context, payload) {
+    //   const currentTodo = context.state.deletedItems.find((item) => item.id = payload);
+    //   context.commit('updateTodoItems', currentID);
+    //   context.commit('removeItem', payload);
+    // },
   },
 });

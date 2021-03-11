@@ -16,6 +16,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
+<style>
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>

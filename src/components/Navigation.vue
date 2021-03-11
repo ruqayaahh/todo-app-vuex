@@ -9,10 +9,9 @@
       <b-navbar-nav>
         <router-link class='text-white' to="/">Home</router-link>
         <router-link class='text-white' to="/add-todo">Add Todo</router-link>
-        <router-link class='text-white' to="/">Recycle Bin</router-link>
+        <router-link class='text-white' to="/recycle-bin">Recycle Bin</router-link>
       </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-form>
           <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>

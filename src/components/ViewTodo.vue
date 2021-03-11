@@ -15,16 +15,17 @@
 
 <script>
 
-// import { mapGetters } from 'vuex';
-
 export default {
   name: 'viewTodo',
   computed: {
     currentTodo() {
       const { params } = this.$route;
-      // debugger;
       return this.$store.getters.getTodoById(Number(params.id));
     },
+    // currentDeleted() {
+    //   const { params } = this.$route;
+    //   return this.$store.getters.getDeletedTodoById(Number(params.id));
+    // },
   },
   // methods: {
   //   ...mapGetters(['getTodoById']),

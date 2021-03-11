@@ -1,5 +1,7 @@
 # todo-app-vuex
 
+A todo application. Add new todo (see link to do so on the navbar) and view details of todos individually. Delete a todo as well. Edit and restore functionality not yet implemented.
+
 ## Project setup
 ```
 npm install
